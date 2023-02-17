@@ -1,0 +1,46 @@
+version: '3.7'
+
+services:
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: base
+    volumes:
+      - ./src:/home/node/app/src
+      - ./prisma:/home/node/app/prisma
+      - ./.env:/home/node/app/.env
+      - ./nodemon.json:/home/node/app/nodemon.json
+    container_name: rola
+    expose:
+      - '4000'
+      - '9229'
+    ports:
+      - '4000:4000'
+      - '9229:9229'
+    environment:
+      PORT: 4000
+      LOG_LEVEL: info
+      NODE_ENV: dev
+    command: npm run dev
+    depends_on:
+      - db
+
+  db:
+    image: postgres
+    restart: always
+    container_name: db
+    ports:
+      - '5432:5432'
+    expose:
+      - '5432'
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: user
+      POSTGRES_DB: rola
+    volumes:
+      - postgresData:/data
+
+volumes:
+  postgresData:
+    driver: local
