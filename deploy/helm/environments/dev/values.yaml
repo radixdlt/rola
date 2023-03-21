@@ -1,0 +1,17 @@
+developerAccess:
+  pod:
+    exec:
+      enabled: true
+
+alertmanager:
+  env: "dev"
+  nameOverride: "rola-amcfg"
+  slackConfig:
+    channel: "feed--alerts-dev-rola"
+  secrets:
+    region: eu-west-2
+    name: "rdx-works-main-dev/eks/rola/dev/alertmanager-integration-keys"
+
+# tunnel:
+#   host: instapass-dev.cysycsthyvms.eu-west-1.rds.amazonaws.com
+#   port: 1433

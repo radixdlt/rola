@@ -1,0 +1,12 @@
+image:
+  tag: {{ .StateValues.ci.tag }}
+
+env:
+  API_URL: {{ .Namespace }}-api.rdx-works-main.extratools.works
+
+ingress:
+  enabled: true
+  hosts:
+    - host: {{ .Namespace }}.rdx-works-main.extratools.works
+      paths:
+        - path: /

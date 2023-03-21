@@ -1,0 +1,53 @@
+docker:
+  secrets:
+    region: eu-west-1
+    name: eu.gcr.io/dev-container-repo
+
+replicaCount: 2
+
+image:
+  repository: eu.gcr.io/dev-container-repo/rola-api
+  pullPolicy: IfNotPresent
+
+imagePullSecrets:
+  - name: docker-eu-gcr-dev-api
+
+nameOverride: "rola-api"
+fullnameOverride: "rola-api"
+
+serviceAccount:
+  create: true
+  annotations: {}
+  name: "rola-api"
+
+podAnnotations: {}
+
+podSecurityContext: {}
+
+securityContext: {}
+
+service:
+  type: ClusterIP
+  port: 4000
+
+ingress:
+  enabled: false
+  className: nginx
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: 50m
+  hosts: []
+
+resources: {}
+
+autoscaling:
+  enabled: false
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+env: {}
+
+secrets: []
