@@ -1,0 +1,173 @@
+# name: Rola CI/CD
+
+# on:
+#   push:
+#     branches:
+#       - main
+#   pull_request:
+#     branches:
+#       - main
+
+# jobs:
+
+#   setup-tags:
+#     runs-on: ubuntu-latest
+#     name: Set tags
+#     steps:
+#       - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c
+#         with:
+#           fetch-depth: 0
+#       - name: Docker tags for rola website
+#         id: rola-website-tags
+#         uses: docker/metadata-action@v4
+#         with:
+#           images: |
+#             eu.gcr.io/dev-container-repo/rola-website
+#           tags: |
+#             type=sha,event=pr
+#             type=sha,event=branch
+#             type=semver,pattern={{version}}
+#       - name: Docker tags for rola api
+#         id: rola-api-tags
+#         uses: docker/metadata-action@v4
+#         with:
+#           images: |
+#             eu.gcr.io/dev-container-repo/rola-api
+#           tags: |
+#             type=sha,event=pr
+#             type=sha,event=branch
+#             type=semver,pattern={{version}}
+#     outputs:
+#       rola-website-tags: ${{ steps.rola-website-tags.outputs.tags }}
+#       rola-website-labels: ${{ steps.rola-website-tags.outputs.labels }}
+#       rola-website-json: ${{ steps.rola-website-tags.outputs.json }}
+#       rola-api-tags: ${{ steps.rola-api-tags.outputs.tags }}
+#       rola-api-labels: ${{ steps.rola-api-tags.outputs.labels }}
+#       rola-api-json: ${{ steps.rola-api-tags.outputs.json }}
+
+#   push-website:
+#     runs-on: ubuntu-latest
+#     name: Build and push website
+#     permissions:
+#       id-token: write
+#       pull-requests: read
+#       contents: read
+#     needs: [setup-tags]
+#     steps:
+#       - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c
+#       - name: Dump context
+#         uses: crazy-max/ghaction-dump-context@158bbf4d6158a44a7e13f76295dc55a69e481a6e
+#       - uses: radixdlt/iac-resuable-artifacts/fetch-secrets@v0.8.0
+#         with: 
+#           role_name: "arn:aws:iam::308190735829:role/gh-common-secrets-read-access"
+#           app_name: "rola"
+#           step_name: "push-app"
+#           secret_prefix: "GH_GCR_JSON_KEY"
+#           secret_name: "arn:aws:secretsmanager:eu-west-2:308190735829:secret:github-actions/common/gcr-credentials-OeJwWi"
+#           parse_json: false
+#       - name: Login to GCR
+#         uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
+#         with:
+#           registry: eu.gcr.io
+#           username: _json_key
+#           password: ${{ env.GH_GCR_JSON_KEY }}
+#       - name: Docker build and push
+#         uses: docker/build-push-action@c56af957549030174b10d6867f20e78cfd7debc5
+#         with:
+#           file: ./Dockerfile
+#           push: true
+#           context: .
+#           tags: ${{ needs.setup-tags.outputs.rola-website-tags }}
+#           labels: ${{ needs.setup-tags.outputs.rola-website-labels }}
+#           target: "base"
+#       - name: Docker Image output
+#         run: |
+#           docker images
+
+#   push-api:
+#     runs-on: ubuntu-latest
+#     name: Build and push api
+#     permissions:
+#       id-token: write
+#       pull-requests: read
+#       contents: read
+#     needs: [setup-tags]
+#     steps:
+#       - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c
+#       - name: Dump context
+#         uses: crazy-max/ghaction-dump-context@158bbf4d6158a44a7e13f76295dc55a69e481a6e
+#       - uses: radixdlt/iac-resuable-artifacts/fetch-secrets@v0.8.0
+#         with: 
+#           role_name: "arn:aws:iam::308190735829:role/gh-common-secrets-read-access"
+#           app_name: "rola"
+#           step_name: "push-app"
+#           secret_prefix: "GH_GCR_JSON_KEY"
+#           secret_name: "arn:aws:secretsmanager:eu-west-2:308190735829:secret:github-actions/common/gcr-credentials-OeJwWi"
+#           parse_json: false
+#       - name: Login to GCR
+#         uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
+#         with:
+#           registry: eu.gcr.io
+#           username: _json_key
+#           password: ${{ env.GH_GCR_JSON_KEY }}
+#       - name: Docker build and push
+#         uses: docker/build-push-action@c56af957549030174b10d6867f20e78cfd7debc5
+#         with:
+#           file: ./Dockerfile
+#           push: true
+#           context: .
+#           tags: ${{ needs.setup-tags.outputs.rola-api-tags }}
+#           labels: ${{ needs.setup-tags.outputs.rola-api-labels }}
+#           target: "base"
+#       - name: Docker Image output
+#         run: |
+#           docker images
+
+#   deploy_pull_request:
+#     name: Deploy PR
+#     if: ${{ github.event.pull_request }}
+#     uses: radixdlt/iac-resuable-artifacts/.github/workflows/deploy.yml@v0.8.3
+#     needs:
+#       - push-website
+#       - push-api
+#       - setup-tags
+#     with:
+#       env_name: pr
+#       hierarchical_namespace: rola-ci-pr
+#       namespace: rola-pr-${{ github.event.number }}
+#       create_subns: true
+#       aws_region: eu-west-2
+#       role_to_assume: arn:aws:iam::308190735829:role/gh-rola-pr-deployer
+#       eks_cluster: rdx-works-main-dev
+#       helmfile_extra_vars: >-
+#         ci.tag=${{ fromJSON(needs.setup-tags.outputs.rola-website-json).labels['org.opencontainers.image.version'] }},
+#         ci.prNumber=${{ github.event.number }},
+#         ci.environment=pr,
+#         ci.useLocalDb=true,
+#         ci.useLocalRedis=true
+#       app_name: "rola"
+#       step_name: "deploy-pr"
+
+#   deploy_dev:
+#     name: Deploy dev
+#     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+#     uses: radixdlt/iac-resuable-artifacts/.github/workflows/deploy.yml@v0.8.3
+#     needs:
+#       - push-website
+#       - push-api
+#       - setup-tags
+#     with:
+#       env_name: dev
+#       namespace:  rola-dev
+#       create_subns: false
+#       aws_region: eu-west-2
+#       role_to_assume: "arn:aws:iam::308190735829:role/gh-rola-dev-deployer"
+#       eks_cluster: rdx-works-main-dev
+#       helmfile_extra_vars: >-
+#         ci.tag=${{ fromJSON(needs.setup-tags.outputs.rola-website-json).labels['org.opencontainers.image.version'] }},
+#         ci.environment=dev,
+#         ci.useLocalDb=true,
+#         ci.useLocalRedis=true
+#       app_name: "rola"
+#       step_name: "deploy-dev"
+

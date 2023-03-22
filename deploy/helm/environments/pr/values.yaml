@@ -1,0 +1,4 @@
+developerAccess:
+  pod:
+    exec:
+      enabled: true

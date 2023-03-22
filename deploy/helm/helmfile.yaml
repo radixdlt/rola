@@ -1,0 +1,101 @@
+helmDefaults:
+  verify: false
+  wait: false
+  timeout: 600
+  recreatePods: false
+  force: false
+  createNamespace: false
+repositories:
+  - name: bitnami
+    url: https://charts.bitnami.com/bitnami
+  - name: stable
+    url: https://charts.helm.sh/stable
+  - name: rdx-works
+    url: https://raw.githubusercontent.com/radixdlt/helm-charts/master/
+    username: {{ requiredEnv "HELM_GH_USER" }}
+    password: {{ requiredEnv "HELM_GH_PASS" }}
+
+environments:
+  pr: {}
+  dev: {}
+
+releases:
+  - name: rola-website
+    chart: ./rola-website
+    values:
+      - environments/{{ .Environment.Name }}/website.yaml.gotmpl
+
+  - name: rola-api
+    chart: ./rola-api
+    values:
+      - environments/{{ .Environment.Name }}/api.yaml.gotmpl
+
+  - name: postgres
+    namespace: {{ .Environment.Name }}
+    chart: bitnami/postgresql
+    version: 12.2.5
+    installed: {{ .StateValues.ci.useLocalDb }}
+    values:
+      - auth:
+          postgresPassword: SuperSecret123!
+          database: rola
+        primary:
+          persistence:
+            enabled: true
+
+  - name: redis
+    namespace: {{ .Environment.Name }}
+    chart: bitnami/redis
+    version: 17.9.0
+    installed: {{ .StateValues.ci.useLocalRedis }}
+    values:
+     - architecture: standalone
+       commonConfiguration: |
+         loglevel verbose
+         client-output-buffer-limit normal 0 0 0
+         client-output-buffer-limit slave 1024mb 128mb 60
+         client-output-buffer-limit pubsub 1024mb 128mb 60
+       auth:
+         enabled: false
+       master:
+         resources:
+           limits:
+             memory: 256Mi
+           requests:
+             cpu: 128m
+             memory: 256Mi
+         persistence:
+           enabled: true
+       replica:
+         replicaCount: 2
+       metrics:
+         enabled: true
+         serviceMonitor:
+           enabled: true
+           additionalLabels:
+             release: prometheus-operator
+
+  - name: socat-tunneller
+    installed: {{ eq .StateValues.ci.useLocalDb "false" }}
+    chart: stable/socat-tunneller
+    values:
+      - image:
+          repository: alpine/socat
+          tag: 1.0.3
+          pullPolicy: IfNotPresent
+      - environments/{{ .Environment.Name }}/values.yaml
+
+  - name: developer-access
+    chart: rdx-works/developer-access
+    version: 1.0.0
+    values:
+      - project: rola
+      - environments/{{ .Environment.Name }}/values.yaml
+
+  - name: alertmanager
+    chart: rdx-works/alertmanager-configs
+    version: 1.0.0
+    installed: {{ ne .Environment.Name "pr" }}
+    values:
+      - environments/{{ .Environment.Name }}/values.yaml
+

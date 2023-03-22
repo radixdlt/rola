@@ -22,6 +22,7 @@ services:
       PORT: 4000
       LOG_LEVEL: info
       NODE_ENV: dev
+      DATABASE_URL: postgresql://user:password@db:5432/rola
     command: npm run dev
     depends_on:
       - db

@@ -1,0 +1,21 @@
+image:
+  tag: {{ .StateValues.ci.tag }}
+
+env:
+  DATABASE_URL: "postgresql://$(DB_USER):$(DB_PASSWORD)@$(DB_HOST):$(DB_PORT)/$(DB_DATABASE)"
+  DB_USER: "postgres"
+  DB_PASSWORD: "SuperSecret123!"
+  DB_HOST: "postgres-postgresql"
+  DB_PORT: 5432
+  DB_DATABASE: "rola"
+  REDIS_PUB: "http://redis-master"
+  REDIS_SUB: "http://redis-master"
+
+secrets:
+
+ingress:
+  enabled: true
+  hosts:
+    - host: {{ .Namespace }}-api.rdx-works-main.extratools.works
+      paths:
+        - path: /
