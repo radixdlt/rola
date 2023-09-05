@@ -1,9 +1,8 @@
 import express from 'express'
-import { secureRandom } from './rola/crypto/secure-random'
-import { SignedChallenge } from '@radixdlt/radix-dapp-toolkit'
-import { RolaFactory } from './rola/rola'
+import { secureRandom } from './secure-random'
 import cors from 'cors'
-import { GatewayService } from './rola/gateway'
+import { Rola } from '@radixdlt/rola'
+import { SignedChallenge, RadixNetwork } from '@radixdlt/radix-dapp-toolkit'
 import { ResultAsync } from 'neverthrow'
 
 const app = express()
@@ -40,11 +39,11 @@ const ChallengeStore = () => {
 
 const challengeStore = ChallengeStore()
 
-const rola = RolaFactory({
-  gatewayService: GatewayService('https://ansharnet-gateway.radixdlt.com'), // gateway service to query the ledger
+const { verifySignedChallenge } = Rola({
+  applicationName: 'Rola Full Stack Typescript Example',
   dAppDefinitionAddress:
-    'account_tdx_d_12xxwkx4fmz680e9wz8atdnyslr9vt7x9qvcfxhtqfnpfhxyjzwtyna', // address of the dApp definition
-  networkId: 13, // network id of the Radix network
+    'account_tdx_e_1285lfp3kwjnyu5esdsy7u9j0482tsw8fj3tnj95gjsgj6qa23yarx8', // address of the dApp definition
+  networkId: RadixNetwork.RCnetV3, // network id of the Radix network
   expectedOrigin: 'http://localhost:4000', // origin of the client making the wallet request
 })
 
@@ -67,7 +66,7 @@ app.post<{}, { valid: boolean }, SignedChallenge[]>(
     if (!isChallengeValid) return res.send({ valid: false })
 
     const result = await ResultAsync.combine(
-      req.body.map((signedChallenge) => rola(signedChallenge))
+      req.body.map((signedChallenge) => verifySignedChallenge(signedChallenge))
     )
 
     if (result.isErr()) return res.send({ valid: false })
