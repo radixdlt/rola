@@ -7,15 +7,12 @@ import { verifyProofFactory } from './helpers/verify-proof'
 import { deriveVirtualAddress } from './helpers/derive-address-from-public-key'
 import { createPublicKeyHash } from './helpers/create-public-key-hash'
 import { GatewayService } from './gateway'
-import type {
-  GatewayApiClient,
-  SignedChallenge,
-} from '@radixdlt/radix-dapp-toolkit'
+import type { GatewayApiClient } from '@radixdlt/babylon-gateway-api-sdk'
+import type { SignedChallenge } from './types'
 
 export { NetworkId } from '@radixdlt/radix-engine-toolkit'
-
-export type { SignedChallenge } from '@radixdlt/radix-dapp-toolkit'
 export type RolaError = { reason: string; jsError?: Error }
+export type * from './types'
 
 export type VerifyOwnerKeyOnLedgerFn = (
   address: string,

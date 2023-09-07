@@ -1,6 +1,6 @@
 import { NetworkId } from '@radixdlt/radix-engine-toolkit'
 import { Rola } from './rola'
-import type { SignedChallenge } from '@radixdlt/radix-dapp-toolkit'
+import type { SignedChallenge } from './types'
 
 describe('Rola', () => {
   const { verifySignedChallenge } = Rola({
