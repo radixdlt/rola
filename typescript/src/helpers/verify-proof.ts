@@ -2,7 +2,7 @@ import type { Result } from 'neverthrow'
 import { err, ok } from 'neverthrow'
 import { curve25519 } from '../crypto/curve25519'
 import { secp256k1 } from '../crypto/secp256k1'
-import type { SignedChallenge } from '@radixdlt/radix-dapp-toolkit'
+import type { SignedChallenge } from '../types'
 
 const supportedCurves = new Set(['curve25519', 'secp256k1'])
 

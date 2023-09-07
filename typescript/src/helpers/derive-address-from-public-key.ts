@@ -1,4 +1,4 @@
-import type { SignedChallenge } from '@radixdlt/radix-dapp-toolkit'
+import type { SignedChallenge } from '../types'
 import { PublicKey, RadixEngineToolkit } from '@radixdlt/radix-engine-toolkit'
 import { ResultAsync, errAsync } from 'neverthrow'
 import { typedError } from './typed-error'
