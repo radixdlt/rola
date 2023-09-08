@@ -1,8 +1,7 @@
 import express from 'express'
 import { secureRandom } from './secure-random'
 import cors from 'cors'
-import { Rola } from '@radixdlt/rola'
-import { SignedChallenge, RadixNetwork } from '@radixdlt/radix-dapp-toolkit'
+import { Rola, SignedChallenge } from '@radixdlt/rola'
 import { ResultAsync } from 'neverthrow'
 
 const app = express()
@@ -43,7 +42,7 @@ const { verifySignedChallenge } = Rola({
   applicationName: 'Rola Full Stack Typescript Example',
   dAppDefinitionAddress:
     'account_tdx_e_1285lfp3kwjnyu5esdsy7u9j0482tsw8fj3tnj95gjsgj6qa23yarx8', // address of the dApp definition
-  networkId: RadixNetwork.RCnetV3, // network id of the Radix network
+  networkId: 13, // network id of the Radix network
   expectedOrigin: 'http://localhost:4000', // origin of the client making the wallet request
 })
 
