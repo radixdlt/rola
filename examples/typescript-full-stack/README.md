@@ -176,3 +176,7 @@ If the derived address matches the `address` provided `request.body.proof.public
 ### Keeping users authenticated
 
 ROLA is meant to be a secure and framework agnostic way to authenticate a user using public key cryptography enabled by the Radix Wallet. After a successful ROLA verification it is up to the dApp to establish a persistent authentication strategy that allows the client to stay authenticated between requests.
+
+# License
+
+The ROLA code and examples is released under [Apache 2.0 license](LICENSE). Binaries are licensed under the [Radix Software EULA](http://www.radixdlt.com/terms/genericEULA)
