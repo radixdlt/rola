@@ -1,24 +1,15 @@
 module.exports = {
-  branches: [
-    'main',
-    'next',
-    {
-      name: 'release/rcnet-v3',
-      channel: 'rcnet-v3',
-      prerelease: 'rcnet-v3',
-    },
-    {
-      name: 'release/rcnet-v3.1',
-      channel: 'rcnet-v3.1',
-      prerelease: 'rcnet-v3.1',
-    },
-  ],
+  branches: ['main', 'next'],
   plugins: [
     [
       '@semantic-release/commit-analyzer',
       {
         preset: 'conventionalcommits',
         releaseRules: [
+          {
+            type: 'major',
+            release: 'major',
+          },
           {
             type: 'refactor',
             release: 'patch',
@@ -74,6 +65,10 @@ module.exports = {
         },
         presetConfig: {
           types: [
+            {
+              type: 'major',
+              release: 'major',
+            },
             {
               type: 'feat',
               section: ':sparkles: Features',
