@@ -15,3 +15,7 @@ ROLA is intended for use in the server backend portion of a Full Stack dApp. It 
 ## Documented examples
 
 - [Typescript full-stack](/examples/typescript-full-stack/README.md)
+
+# License
+
+The ROLA code and examples is released under [Apache 2.0 license](LICENSE). Binaries are licensed under the [Radix Software EULA](http://www.radixdlt.com/terms/genericEULA)
