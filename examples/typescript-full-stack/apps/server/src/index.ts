@@ -41,8 +41,8 @@ const challengeStore = ChallengeStore()
 const { verifySignedChallenge } = Rola({
   applicationName: 'Rola Full Stack Typescript Example',
   dAppDefinitionAddress:
-    'account_tdx_e_1285lfp3kwjnyu5esdsy7u9j0482tsw8fj3tnj95gjsgj6qa23yarx8', // address of the dApp definition
-  networkId: 13, // network id of the Radix network
+    'account_tdx_2_12yf9gd53yfep7a669fv2t3wm7nz9zeezwd04n02a433ker8vza6rhe', // address of the dApp definition
+  networkId: 2, // network id of the Radix network
   expectedOrigin: 'http://localhost:4000', // origin of the client making the wallet request
 })
 

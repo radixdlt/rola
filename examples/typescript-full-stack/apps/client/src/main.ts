@@ -26,8 +26,8 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 
 const radixDappToolkit = RadixDappToolkit({
   dAppDefinitionAddress:
-    'account_tdx_e_1285lfp3kwjnyu5esdsy7u9j0482tsw8fj3tnj95gjsgj6qa23yarx8',
-  networkId: RadixNetwork.RCnetV3,
+    'account_tdx_2_12yf9gd53yfep7a669fv2t3wm7nz9zeezwd04n02a433ker8vza6rhe',
+  networkId: RadixNetwork.Stokenet,
 })
 
 // Clear the dApp state for example purposes
