@@ -22,12 +22,13 @@
     "Dawid Sowa <dawid.sowa@rdx.works>"
   ],
   "bugs": "https://github.com/radixdlt/rola/issues",
-  "license": "Apache-2.0",
+  "license": "SEE LICENSE IN RADIX-SOFTWARE-EULA",
   "engines": {
     "node": ">=14.0.0"
   },
   "files": [
-    "dist"
+    "dist",
+    "RADIX-SOFTWARE-EULA"
   ],
   "main": "./dist/rola.mjs",
   "exports": {
