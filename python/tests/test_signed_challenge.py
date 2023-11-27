@@ -2,12 +2,14 @@ from ecdsa import Ed25519
 
 from rola.models.proof import Proof
 from rola.models.signed_challenge import SignedChallenge
+from rola.utils.helpers import create_signature_message
 
 
 def test_verify_signature():
     challenge = 'b519902dd21c9669b81bb5023687879d178e5c4991ba1d0ee9e131cee365bafa'
-    publicKey = '1456b4da4ee62da249459f2180b83e5ebd5db8bad2ed1d8f35f51e7ec2cc98ce'
-    signature = '8335e38096b3f0ac943c04e4c0b286af8cb711cb5f603a023d1d387fdd0cfae1a0255bcdb5d75cd43690413798959bd4c05af9b86f30d6ff74561bb9c8869202'
+    publicKey = 'a6b8a053f51c1f945317bef5f5344321783b243821e919448c5963b9a8a20552'
+    dapp_definition_address = "account_tdx_2_12xdm5g7xdhh73zkh7xkty0dsxw4rw0jl0sq4lr3erpc3xdn54zx0le"
+    signature = 'ff90cc1fba1bf027b07d1c676a755f0136a71002684acd6353346ae1f5e3197fec35c20a35e50fafb4caffdfff25a9f6b4df943e81955d4e756fb21c7962c0f3'
 
     signed_challenge = SignedChallenge(
         challenge=challenge,
@@ -19,4 +21,9 @@ def test_verify_signature():
         address="",
         type=""
     )
-    signed_challenge.verify_signature()
+    signature_message = create_signature_message(
+        challenge=challenge,
+        dapp_definition_address=dapp_definition_address,
+        origin="https://stokenet-dashboard.radixdlt.com")
+    signature_verified = signed_challenge.verify_signature(signature_message)
+    print((signature_verified))

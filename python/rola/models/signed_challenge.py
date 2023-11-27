@@ -20,19 +20,14 @@ class SignedChallenge:
         self.address = address
         self.type = type
 
-    def verify_signature(self) -> bool:
-        # Convert hex strings to bytes
-        signature = bytes.fromhex(self.proof.signature)
-
+    def verify_signature(self, signature_message: str) -> bool:
         # Create a verifying key object from the public key
-        verify_key = VerifyingKey.from_string(self.proof.public_key, curve=self.proof.curve)
-
-        # Hash the data (you might need to hash your data before verification)
-        hashed_data = hashlib.sha256(self.challenge.encode()).digest()
-
+        verify_key = VerifyingKey.from_string(
+            bytes.fromhex(self.proof.public_key),
+            curve=self.proof.curve)
         # Verify the signature
         try:
-            verify_key.verify(signature, hashed_data)
+            verify_key.verify(self.proof.signature.encode(), signature_message.encode())
             return True
         except BadSignatureError:
             logger.info("Signature is invalid.")
