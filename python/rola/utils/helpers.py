@@ -18,22 +18,28 @@ def create_public_key_hash(public_key: str) -> str:
 
 
 def create_signature_message(challenge, dapp_definition_address, origin):
-    # Convert challenge to bytes from hex
+    """
+    Format
+        Y = 82 (R in ASCII for ROLA)
+        32 raw bytes of the challenge
+        1 byte - the length of the UTF-8-encoded bech32-encoded dapp-definition address
+        The bytes of the UTF-8-encoded bech32-encoded address
+        The bytes of the origin UTF-8 encoded
+    """
+    prefix = 'R'.encode()
+    length_of_dapp_def_address = len(dapp_definition_address)
+    length_of_dapp_def_address_bytes = length_of_dapp_def_address.to_bytes(1, byteorder="big")
+    dapp_def_address_bytes = bytes([ord(c) for c in dapp_definition_address])
+    origin_bytes = bytes([ord(c) for c in origin])
     challenge_bytes = bytes.fromhex(challenge)
-    # Convert dAppDefinitionAddress to bytes using utf-8 encoding
-    dAppDefinitionAddress_bytes = dapp_definition_address.encode('utf-8')
-    # Convert origin to bytes using utf-8 encoding
-    origin_bytes = origin.encode('utf-8')
-    # Create a prefix buffer from ASCII character 'R'
-    prefix = b'R'
-    # Convert length of dAppDefinitionAddress to bytes using hex encoding
-    length_of_dAppDefinitionAddress_bytes = bytes([len(dapp_definition_address)])
-    # Concatenate all the buffers
-    message_buffer = (prefix +
-                      challenge_bytes +
-                      length_of_dAppDefinitionAddress_bytes +
-                      dAppDefinitionAddress_bytes +
-                      origin_bytes)
-    # Hash the message using Blake2b
-    hashed_message = hashlib.blake2b(message_buffer).hexdigest()
-    return hashed_message
+
+    message = b''.join([
+        prefix,
+        challenge_bytes,
+        length_of_dapp_def_address_bytes,
+        dapp_def_address_bytes,
+        origin_bytes,
+    ])
+
+    hash_result = hashlib.blake2b(message, digest_size=32).hexdigest()
+    return hash_result

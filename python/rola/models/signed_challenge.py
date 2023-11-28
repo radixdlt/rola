@@ -1,6 +1,6 @@
-import hashlib
 import logging
 
+import ed25519
 from ecdsa import VerifyingKey, BadSignatureError
 from rola.models.proof import Proof
 
@@ -22,12 +22,11 @@ class SignedChallenge:
 
     def verify_signature(self, signature_message: str) -> bool:
         # Create a verifying key object from the public key
-        verify_key = VerifyingKey.from_string(
-            bytes.fromhex(self.proof.public_key),
-            curve=self.proof.curve)
-        # Verify the signature
+        verify_key = ed25519.VerifyingKey(bytes.fromhex(self.proof.public_key))
         try:
-            verify_key.verify(self.proof.signature.encode(), signature_message.encode())
+            verify_key.verify(
+                bytes.fromhex(self.proof.signature),
+                bytes.fromhex(signature_message))
             return True
         except BadSignatureError:
             logger.info("Signature is invalid.")

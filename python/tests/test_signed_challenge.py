@@ -6,10 +6,10 @@ from rola.utils.helpers import create_signature_message
 
 
 def test_verify_signature():
-    challenge = 'b519902dd21c9669b81bb5023687879d178e5c4991ba1d0ee9e131cee365bafa'
+    challenge = 'fe81d4fddaa22d0c103198f61df8437d8b8899102633c08021ecc41c5ab61dfd'
     publicKey = 'a6b8a053f51c1f945317bef5f5344321783b243821e919448c5963b9a8a20552'
     dapp_definition_address = "account_tdx_2_12xdm5g7xdhh73zkh7xkty0dsxw4rw0jl0sq4lr3erpc3xdn54zx0le"
-    signature = 'ff90cc1fba1bf027b07d1c676a755f0136a71002684acd6353346ae1f5e3197fec35c20a35e50fafb4caffdfff25a9f6b4df943e81955d4e756fb21c7962c0f3'
+    signature = '7f3730ae82ba7dfcfad7497a9159381451dc11b77b02fd46f67406752f50800e81ad180a59f37a4642f71845272f3ab605a322acd40de80ee650743d7afe4902'
 
     signed_challenge = SignedChallenge(
         challenge=challenge,
@@ -18,12 +18,13 @@ def test_verify_signature():
             signature=signature,
             curve=Ed25519
         ),
-        address="",
-        type=""
+        address="identity_tdx_2_12gc7ajs0araj6ph78dqqd0cvzzcegfygu55jst77vnee2nd05vp8wc",
+        type="persona"
     )
     signature_message = create_signature_message(
         challenge=challenge,
         dapp_definition_address=dapp_definition_address,
         origin="https://stokenet-dashboard.radixdlt.com")
+
     signature_verified = signed_challenge.verify_signature(signature_message)
-    print((signature_verified))
+    assert signature_verified
