@@ -121,11 +121,11 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Running lint
-        run: |
-          pip install black
-          black rola
-
+      - uses: psf/black@stable
+        with:
+          options: "--check --verbose"
+          src: "./rola"
+      
       - name: Running tests
         run: |
           pip install pytest
