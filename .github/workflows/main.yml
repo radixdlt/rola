@@ -107,26 +107,26 @@ jobs:
           name: typescript-rola.${{ github.sha }}
           path: .
 
-test_and_lint_python:
-  runs-on: ubuntu-latest
-  container:
-    image: python:3.8
+  test_and_lint_python:
+    runs-on: ubuntu-latest
+    container:
+      image: python:3.8
 
-  steps:
-    - uses: actions/checkout@v3
+    steps:
+      - uses: actions/checkout@v3
 
-    - name: Install dependencies
-      run: pip install -r requirements.txt
+      - name: Install dependencies
+        run: pip install -r requirements.txt
 
-    - name: Running lint
-      run: |
-        pip install black
-        black rola
+      - name: Running lint
+        run: |
+          pip install black
+          black rola
 
-    - name: Running tests
-      run: |
-        pip install pytest
-        pytest tests/
+      - name: Running tests
+        run: |
+          pip install pytest
+          pytest tests/
 
   # snyk_monitor:
   #   runs-on: ubuntu-latest
