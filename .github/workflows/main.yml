@@ -74,7 +74,7 @@ jobs:
   #         args: --all-projects --org=${{ env.SNYK_PROJECTS_ORG_ID }} --format=cyclonedx1.4+json --json-file-output sbom.json
   #         command: sbom
 
-  test_and_lint:
+  test_and_lint_typescript:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -106,6 +106,27 @@ jobs:
         with:
           name: typescript-rola.${{ github.sha }}
           path: .
+
+test_and_lint_python:
+  runs-on: ubuntu-latest
+  container:
+    image: python:3.8
+
+  steps:
+    - uses: actions/checkout@v3
+
+    - name: Install dependencies
+      run: pip install -r requirements.txt
+
+    - name: Running lint
+      run: |
+        pip install black
+        black rola
+
+    - name: Running tests
+      run: |
+        pip install pytest
+        pytest tests/
 
   # snyk_monitor:
   #   runs-on: ubuntu-latest
