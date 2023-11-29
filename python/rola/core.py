@@ -11,7 +11,7 @@ class Rola:
         dapp_address: str,
         expected_origin: str,
         application_name: str,
-        gateway_metadata_provider: GatewayMetadataProvider
+        gateway_metadata_provider: GatewayMetadataProvider,
     ):
         self.network_id = network_id
         self.dapp_address = dapp_address

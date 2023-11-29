@@ -13,16 +13,9 @@ def test_derive_address_from_proof_with_type_person():
 
     signed_challenge = SignedChallenge(
         challenge=challenge,
-        proof=Proof(
-            public_key=publicKey,
-            signature=signature,
-            curve=Ed25519
-        ),
+        proof=Proof(public_key=publicKey, signature=signature, curve=Ed25519),
         address="test",
         type="persona",
     )
-    address = derive_address(
-        network_id=2,
-        signed_challenge=signed_challenge
-    )
+    address = derive_address(network_id=2, signed_challenge=signed_challenge)
     assert isinstance(address, Address)
