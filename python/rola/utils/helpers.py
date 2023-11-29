@@ -9,7 +9,7 @@ logger.setLevel(logging.INFO)
 def create_public_key_hash(public_key: str) -> str:
     hex_encoded = ""
     try:
-        hashed = blake2b(bytes.fromhex(public_key), digest_size=32).digest()
+        hashed = blake2b(public_key, digest_size=32).digest()
         result = hashed[-29:]
         hex_encoded = result.hex()
     except Exception:
@@ -33,12 +33,11 @@ def create_signature_message(challenge, dapp_definition_address, origin):
     )
     dapp_def_address_bytes = bytes([ord(c) for c in dapp_definition_address])
     origin_bytes = bytes([ord(c) for c in origin])
-    challenge_bytes = bytes.fromhex(challenge)
 
     message = b"".join(
         [
             prefix,
-            challenge_bytes,
+            challenge,
             length_of_dapp_def_address_bytes,
             dapp_def_address_bytes,
             origin_bytes,
