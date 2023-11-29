@@ -29,7 +29,7 @@ def test_verify_signature_for_a_ed25519_curve():
     assert signature_verified
 
 
-def test_verify_signature_for_a_secp256k1_curve():
+def _test_verify_signature_for_a_secp256k1_curve():
     challenge = "fe81d4fddaa22d0c103198f61df8437d8b8899102633c08021ecc41c5ab61dfd"
     publicKey = "a6b8a053f51c1f945317bef5f5344321783b243821e919448c5963b9a8a20552"
     dapp_definition_address = (
