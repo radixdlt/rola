@@ -9,8 +9,8 @@ def load_dependencies(dev=False):
     # Load dependencies from Pipfile
     requirements = pipenv.convert.from_pipfile()
     if dev:
-        return [str(req) for req in requirements['dev-packages']]
-    return [str(req) for req in requirements['packages']]
+        return [str(req) for req in requirements["dev-packages"]]
+    return [str(req) for req in requirements["packages"]]
 
 
 setup(

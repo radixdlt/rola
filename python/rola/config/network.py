@@ -1,4 +1,1 @@
-
-NETWORKS = {
-    "2": "https://stokenet.radixdlt.com"
-}
+NETWORKS = {"2": "https://stokenet.radixdlt.com"}

@@ -26,20 +26,24 @@ def create_signature_message(challenge, dapp_definition_address, origin):
         The bytes of the UTF-8-encoded bech32-encoded address
         The bytes of the origin UTF-8 encoded
     """
-    prefix = 'R'.encode()
+    prefix = "R".encode()
     length_of_dapp_def_address = len(dapp_definition_address)
-    length_of_dapp_def_address_bytes = length_of_dapp_def_address.to_bytes(1, byteorder="big")
+    length_of_dapp_def_address_bytes = length_of_dapp_def_address.to_bytes(
+        1, byteorder="big"
+    )
     dapp_def_address_bytes = bytes([ord(c) for c in dapp_definition_address])
     origin_bytes = bytes([ord(c) for c in origin])
     challenge_bytes = bytes.fromhex(challenge)
 
-    message = b''.join([
-        prefix,
-        challenge_bytes,
-        length_of_dapp_def_address_bytes,
-        dapp_def_address_bytes,
-        origin_bytes,
-    ])
+    message = b"".join(
+        [
+            prefix,
+            challenge_bytes,
+            length_of_dapp_def_address_bytes,
+            dapp_def_address_bytes,
+            origin_bytes,
+        ]
+    )
 
     hash_result = hashlib.blake2b(message, digest_size=32).hexdigest()
     return hash_result

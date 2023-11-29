@@ -20,20 +20,18 @@ class GatewayMetadataProvider:
         self.base_url = base_url
 
     @classmethod
-    def for_mainnet(cls) -> 'GatewayMetadataProvider':
+    def for_mainnet(cls) -> "GatewayMetadataProvider":
         return cls("https://mainnet.radixdlt.com")
 
     @classmethod
-    def for_stokenet(cls) -> 'GatewayMetadataProvider':
+    def for_stokenet(cls) -> "GatewayMetadataProvider":
         return cls("https://stokenet.radixdlt.com")
 
     def entity_owner(self, address: str) -> PublicKeyHash.ED25519:
         headers = {"accept": "application/json"}
         body = {"addresses": [address]}
         response = requests.post(
-            url=f"{self.base_url}/state/entity/details",
-            headers=headers,
-            json=body
+            url=f"{self.base_url}/state/entity/details", headers=headers, json=body
         )
 
         if response.status_code != 200:
