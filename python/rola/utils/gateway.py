@@ -1,17 +1,51 @@
 import requests
-from rola.config.network import NETWORKS
+from radix_engine_toolkit import PublicKeyHash
+from abc import ABC, abstractmethod
+
+from typing import List
+
+from rola.exceptions.gateway import EntityNotFound
 
 
-def get_entity_owner(
-        address: str,
-        network_id: str) -> str:
+class MetadataProvider(ABC):
+    @abstractmethod
+    def entity_owner(self, address: str) -> List[PublicKeyHash]:
+        pass
 
-    headers = {"accept": "application/json"}
-    body = {"addresses": [address]}
-    metadata_items = requests.post(
-        url=f"{NETWORKS[network_id]}/state/entity/details",
-        headers=headers,
-        json=body
-    ).json()["items"][0]["metadata"]["items"]
-    owner_keys = [item for item in metadata_items if item["key"] == "owner_keys"]
-    return owner_keys[0]["value"]["raw_hex"] if len(owner_keys) == 1 else ""
+
+class GatewayMetadataProvider:
+    base_url: str
+
+    def __init__(self, base_url: str = "https://mainnet.radixdlt.com") -> None:
+        self.base_url = base_url
+
+    @classmethod
+    def for_mainnet(cls) -> 'GatewayMetadataProvider':
+        return cls("https://mainnet.radixdlt.com")
+
+    @classmethod
+    def for_stokenet(cls) -> 'GatewayMetadataProvider':
+        return cls("https://stokenet.radixdlt.com")
+
+    def entity_owner(self, address: str) -> PublicKeyHash.ED25519:
+        headers = {"accept": "application/json"}
+        body = {"addresses": [address]}
+        response = requests.post(
+            url=f"{self.base_url}/state/entity/details",
+            headers=headers,
+            json=body
+        )
+
+        if response.status_code != 200:
+            response.raise_for_status()
+
+        items = response.json().get("items", [])
+        if not items:
+            raise EntityNotFound()
+
+        metadata_items = items[0].get("metadata", {}).get("items", [])
+        owner_keys = [item for item in metadata_items if item["key"] == "owner_keys"]
+        if len(owner_keys) == 1:
+            return PublicKeyHash.ED25519(owner_keys[0]["value"]["raw_hex"])
+        else:
+            raise EntityNotFound()

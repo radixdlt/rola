@@ -23,14 +23,14 @@ class Rola:
                                 signed_challenge: SignedChallenge) -> bool:
 
         # create public key hex hash
-        public_key_hex = create_public_key_hash(
+        public_key_hash_hex = create_public_key_hash(
             signed_challenge.proof.public_key)
-        if public_key_hex == "":
+        if public_key_hash_hex == "":
             return False
 
         # verify the signed challenge signature
-        if not signed_challenge.verify_signature(
-                public_key_hex=public_key_hex):
+
+        if not signed_challenge.verify_signature():
             return False
 
         # check that the signed challenge address entity owner contains the
@@ -38,7 +38,7 @@ class Rola:
         entity_owner = get_entity_owner(
             network_id=self.network_id,
             address=signed_challenge.address)
-        if not public_key_hex == entity_owner:
+        if not public_key_hash_hex == entity_owner:
             return False
 
         # derive address from public key
