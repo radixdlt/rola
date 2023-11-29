@@ -20,7 +20,7 @@ def test_verify_signature_for_a_ed25519_curve():
         type="persona",
     )
     signature_message = create_signature_message(
-        challenge=challenge,
+        challenge=signed_challenge.challenge,
         dapp_definition_address=dapp_definition_address,
         origin="https://stokenet-dashboard.radixdlt.com",
     )
@@ -44,7 +44,7 @@ def _test_verify_signature_for_a_secp256k1_curve():
         type="persona",
     )
     signature_message = create_signature_message(
-        challenge=challenge,
+        challenge=signed_challenge.challenge,
         dapp_definition_address=dapp_definition_address,
         origin="https://stokenet-dashboard.radixdlt.com",
     )
