@@ -9,7 +9,7 @@ def parse_requirements(filename):
         return f.read().splitlines()
 
 
-requirements = parse_requirements('requirements.txt')
+requirements = parse_requirements("requirements.txt")
 
 setup(
     name="rola",
@@ -20,5 +20,5 @@ setup(
     url="https://github.com/radixdlt/rola",
     packages=find_packages(),
     python_requires=">=3.8",
-    install_requires=requirements
+    install_requires=requirements,
 )
