@@ -1,10 +1,5 @@
-from radix_engine_toolkit import (
-    derive_virtual_account_address_from_public_key,
-    PublicKey,
-)
-
 from rola.models.signed_challenge import SignedChallenge
-from rola.utils.gateway import get_entity_owner
+from rola.utils.gateway import GatewayMetadataProvider
 from rola.utils.helpers import create_public_key_hash
 from rola.utils.ret import derive_address
 
@@ -12,15 +7,17 @@ from rola.utils.ret import derive_address
 class Rola:
     def __init__(
         self,
-        expected_origin: str,
+        network_id: int,
         dapp_address: str,
+        expected_origin: str,
         application_name: str,
-        network_id: str,
+        gateway_metadata_provider: GatewayMetadataProvider
     ):
-        self.expected_origin = expected_origin
-        self.dapp_address = dapp_address
-        self.application_name = application_name
         self.network_id = network_id
+        self.dapp_address = dapp_address
+        self.expected_origin = expected_origin
+        self.application_name = application_name
+        self.gateway_metadata_provider = gateway_metadata_provider
 
     def verify_signed_challenge(self, signed_challenge: SignedChallenge) -> bool:
         # create public key hex hash
@@ -35,8 +32,8 @@ class Rola:
 
         # check that the signed challenge address entity owner contains the
         # public key hash
-        entity_owner = get_entity_owner(
-            network_id=self.network_id, address=signed_challenge.address
+        entity_owner = self.gateway_metadata_provider.entity_owner(
+            address=signed_challenge.address
         )
         if not public_key_hash_hex == entity_owner:
             return False
