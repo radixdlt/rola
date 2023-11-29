@@ -46,4 +46,4 @@ def create_signature_message(challenge, dapp_definition_address, origin):
     )
 
     hash_result = hashlib.blake2b(message, digest_size=32).hexdigest()
-    return hash_result
+    return bytes.fromhex(hash_result)
