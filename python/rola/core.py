@@ -36,10 +36,15 @@ class Rola:
 
         # check that the signed challenge address entity owner contains the
         # public key hash
-        entity_owner = self.gateway_metadata_provider.entity_owner(
+        entity_owners = self.gateway_metadata_provider.entity_owner(
             address=signed_challenge.address
         )
-        if not public_key_hash_hex in entity_owner.value:
+        owners_hashes_hex = [owner["hash_hex"] for owner in entity_owners]
+        hash_found = False
+        for hash in owners_hashes_hex:
+            if public_key_hash_hex in hash:
+                hash_found = True
+        if not hash_found:
             return False
 
         # derive address from public key

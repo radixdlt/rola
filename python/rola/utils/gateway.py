@@ -27,7 +27,7 @@ class GatewayMetadataProvider:
     def for_stokenet(cls) -> "GatewayMetadataProvider":
         return cls("https://stokenet.radixdlt.com")
 
-    def entity_owner(self, address: str) -> PublicKeyHash.ED25519:
+    def entity_owner(self, address: str) -> List[PublicKeyHash]:
         headers = {"accept": "application/json"}
         body = {"addresses": [address]}
         response = requests.post(
@@ -42,8 +42,8 @@ class GatewayMetadataProvider:
             raise EntityNotFound()
 
         metadata_items = items[0].get("metadata", {}).get("items", [])
-        owner_keys = [item for item in metadata_items if item["key"] == "owner_keys"]
-        if len(owner_keys) == 1:
-            return PublicKeyHash.ED25519(owner_keys[0]["value"]["raw_hex"])
-        else:
-            raise EntityNotFound()
+        owner_keys_items = [
+            item for item in metadata_items if item["key"] == "owner_keys"
+        ][0]["value"]["typed"]
+        assert owner_keys_items["type"] == "PublicKeyHashArray"
+        return owner_keys_items["values"]
