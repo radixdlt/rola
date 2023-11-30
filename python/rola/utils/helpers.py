@@ -6,7 +6,7 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
 
-def create_public_key_hash(public_key: str) -> str:
+def create_public_key_hash(public_key: bytes) -> str:
     hex_encoded = ""
     try:
         hashed = blake2b(public_key, digest_size=32).digest()
