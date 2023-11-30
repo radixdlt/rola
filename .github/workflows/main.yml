@@ -121,13 +121,17 @@ jobs:
       - name: Install dependencies
         run: |  
           pip install -r requirements.txt
-          ls -la
 
       - uses: psf/black@stable
         with:
           options: "--check --verbose"
           src: "."
-      
+
+      - name: Static type check
+        run: |
+          pip install mypy
+          mypy rola --ignore-missing-imports 
+
       - name: Running tests
         run: |
           pip install pytest

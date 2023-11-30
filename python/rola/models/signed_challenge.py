@@ -47,3 +47,5 @@ class SignedChallenge:
                 return True
             except Exception as e:
                 return False
+        else:
+            return False
