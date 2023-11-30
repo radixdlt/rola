@@ -43,7 +43,7 @@ class SignedChallenge:
             try:
                 # Verifying the signature for the given message
                 verify_key.verify(self.proof.signature, signature_message)
-                logger.info("Signature is invalid.")
+                logger.info("Signature is valid.")
                 return True
             except Exception as e:
                 return False
