@@ -1,20 +1,29 @@
 from ecdsa import Ed25519
+from radix_engine_toolkit import Curve
+
 from rola.core import Rola
+from rola.models.challenge import ChallengeType
 from rola.models.proof import Proof
 from rola.models.signed_challenge import SignedChallenge
 from rola.utils.gateway import GatewayMetadataProvider
 
 
 def test_verify_signed_challenge():
-    challenge = "fe81d4fddaa22d0c103198f61df8437d8b8899102633c08021ecc41c5ab61dfd"
-    publicKey = "a6b8a053f51c1f945317bef5f5344321783b243821e919448c5963b9a8a20552"
-    signature = "7f3730ae82ba7dfcfad7497a9159381451dc11b77b02fd46f67406752f50800e81ad180a59f37a4642f71845272f3ab605a322acd40de80ee650743d7afe4902"
+    challenge = bytes.fromhex(
+        "fe81d4fddaa22d0c103198f61df8437d8b8899102633c08021ecc41c5ab61dfd"
+    )
+    publicKey = bytes.fromhex(
+        "a6b8a053f51c1f945317bef5f5344321783b243821e919448c5963b9a8a20552"
+    )
+    signature = bytes.fromhex(
+        "7f3730ae82ba7dfcfad7497a9159381451dc11b77b02fd46f67406752f50800e81ad180a59f37a4642f71845272f3ab605a322acd40de80ee650743d7afe4902"
+    )
 
     signed_challenge = SignedChallenge(
         challenge=challenge,
-        proof=Proof(public_key=publicKey, signature=signature, curve=Ed25519),
+        proof=Proof(public_key=publicKey, signature=signature, curve=Curve.ED25519),
         address="identity_tdx_2_12gc7ajs0araj6ph78dqqd0cvzzcegfygu55jst77vnee2nd05vp8wc",
-        type="persona",
+        challenge_type=ChallengeType.PERSONA,
     )
 
     rola = Rola(

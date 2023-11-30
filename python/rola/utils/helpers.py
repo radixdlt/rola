@@ -17,7 +17,9 @@ def create_public_key_hash(public_key: str) -> str:
     return hex_encoded
 
 
-def create_signature_message(challenge, dapp_definition_address, origin):
+def create_signature_message(
+    challenge: bytes, dapp_definition_address: str, origin: str
+) -> bytes:
     """
     Format
         Y = 82 (R in ASCII for ROLA)

@@ -1,7 +1,10 @@
 import logging
 
 import ed25519
-from ecdsa import BadSignatureError, Ed25519, SECP256k1, SigningKey
+from ecdsa import SECP256k1, SigningKey
+from radix_engine_toolkit import Curve
+
+from rola.models.challenge import ChallengeType
 from rola.models.proof import Proof
 
 logger = logging.getLogger(__name__)
@@ -9,23 +12,29 @@ logger.setLevel(logging.INFO)
 
 
 class SignedChallenge:
-    def __init__(self, challenge: str, proof: Proof, address: str, type: str):
-        self.challenge = bytes.fromhex(challenge)
+    def __init__(
+        self,
+        challenge: bytes,
+        proof: Proof,
+        address: str,
+        challenge_type: ChallengeType,
+    ):
+        self.challenge = challenge
         self.proof = proof
         self.address = address
-        self.type = type
+        self.challenge_type = challenge_type
 
-    def verify_signature(self, signature_message: str) -> bool:
+    def verify_signature(self, signature_message: bytes) -> bool:
         # Create a verifying key object from the public key
-        if self.proof.curve == Ed25519:
+        if self.proof.curve == Curve.ED25519:
             verify_key = ed25519.VerifyingKey(self.proof.public_key)
             try:
                 verify_key.verify(self.proof.signature, signature_message)
                 return True
-            except BadSignatureError:
+            except ed25519.BadSignatureError:
                 logger.info("Signature is invalid.")
                 return False
-        elif self.proof.curve == SECP256k1:
+        elif self.proof.curve == Curve.SECP256K1:
             verify_key = SigningKey.from_string(
                 self.proof.public_key, curve=SECP256k1
             ).verifying_key

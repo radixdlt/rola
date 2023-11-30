@@ -1,6 +1,6 @@
-from ecdsa import Ed25519
-from radix_engine_toolkit import Address
+from radix_engine_toolkit import Address, Curve
 
+from rola.models.challenge import ChallengeType
 from rola.models.proof import Proof
 from rola.models.signed_challenge import SignedChallenge
 from rola.utils.ret import derive_address
@@ -13,9 +13,13 @@ def test_derive_address_from_proof_with_type_person():
 
     signed_challenge = SignedChallenge(
         challenge=challenge,
-        proof=Proof(public_key=publicKey, signature=signature, curve=Ed25519),
+        proof=Proof(
+            public_key=bytes.fromhex(publicKey),
+            signature=bytes.fromhex(signature),
+            curve=Curve.ED25519,
+        ),
         address="test",
-        type="persona",
+        challenge_type=ChallengeType.PERSONA,
     )
     address = derive_address(network_id=2, signed_challenge=signed_challenge)
     assert isinstance(address, Address)
