@@ -130,7 +130,7 @@ jobs:
       - name: Static type check
         run: |
           pip install mypy
-          mypy rola --ignore-missing-imports --install-types 
+          mypy rola --ignore-missing-imports --install-types --non-interactive 
 
       - name: Running tests
         run: |
