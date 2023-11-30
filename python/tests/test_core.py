@@ -1,4 +1,3 @@
-from ecdsa import Ed25519
 from radix_engine_toolkit import Curve
 
 from rola.core import Rola
