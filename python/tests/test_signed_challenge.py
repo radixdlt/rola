@@ -43,7 +43,7 @@ def test_verify_signed_challenge_with_secp256k1_curve():
     challenge = token_bytes(32)
     message = create_signature_message(
         challenge=challenge,
-        dapp_definition_address="account_tdx",
+        dapp_definition_address="account_tdx_2_12xdm5g7xdhh73zkh7xkty0dsxw4rw0jl0sq4lr3erpc3xdn54zx0le",
         origin="test-origin",
     )
 
@@ -65,7 +65,7 @@ def test_verify_signed_challenge_fails_with_wrong_signature_and_with_secp256k1_c
     challenge = token_bytes(32)
     message = create_signature_message(
         challenge=challenge,
-        dapp_definition_address="account_tdx",
+        dapp_definition_address="account_tdx_2_12xdm5g7xdhh73zkh7xkty0dsxw4rw0jl0sq4lr3erpc3xdn54zx0le",
         origin="test-origin",
     )
 
@@ -88,7 +88,7 @@ def test_verify_signed_challenge_fails_with_wrong_signature_and_with_ed25519_cur
     challenge = token_bytes(32)
     message = create_signature_message(
         challenge=challenge,
-        dapp_definition_address="account_tdx",
+        dapp_definition_address="account_tdx_2_12xdm5g7xdhh73zkh7xkty0dsxw4rw0jl0sq4lr3erpc3xdn54zx0le",
         origin="test-origin",
     )
 
@@ -111,7 +111,7 @@ def test_verify_signed_challenge_fails_when_wrong_public_key_and_with_secp256k1_
     challenge = token_bytes(32)
     message = create_signature_message(
         challenge=challenge,
-        dapp_definition_address="account_tdx",
+        dapp_definition_address="account_tdx_2_12xdm5g7xdhh73zkh7xkty0dsxw4rw0jl0sq4lr3erpc3xdn54zx0le",
         origin="test-origin",
     )
 
@@ -134,7 +134,7 @@ def test_verify_signed_challenge_fails_when_wrong_public_key_and_with_ed25519_cu
     challenge = token_bytes(32)
     message = create_signature_message(
         challenge=challenge,
-        dapp_definition_address="account_tdx",
+        dapp_definition_address="account_tdx_2_12xdm5g7xdhh73zkh7xkty0dsxw4rw0jl0sq4lr3erpc3xdn54zx0le",
         origin="test-origin",
     )
 
@@ -157,7 +157,7 @@ def test_verify_signed_challenge_failing_to_create_ed25519_verifying_key():
     challenge = token_bytes(32)
     message = create_signature_message(
         challenge=challenge,
-        dapp_definition_address="account_tdx",
+        dapp_definition_address="account_tdx_2_12xdm5g7xdhh73zkh7xkty0dsxw4rw0jl0sq4lr3erpc3xdn54zx0le",
         origin="test-origin",
     )
 
@@ -179,7 +179,7 @@ def test_verify_signed_challenge_failing_to_create_64_bytes_ed25519_verifying_ke
     challenge = token_bytes(32)
     message = create_signature_message(
         challenge=challenge,
-        dapp_definition_address="account_tdx",
+        dapp_definition_address="account_tdx_2_12xdm5g7xdhh73zkh7xkty0dsxw4rw0jl0sq4lr3erpc3xdn54zx0le",
         origin="test-origin",
     )
 
@@ -201,7 +201,7 @@ def test_verify_signed_challenge_failing_to_create_secp256k1_verifying_key():
     challenge = token_bytes(32)
     message = create_signature_message(
         challenge=challenge,
-        dapp_definition_address="account_tdx",
+        dapp_definition_address="account_tdx_2_12xdm5g7xdhh73zkh7xkty0dsxw4rw0jl0sq4lr3erpc3xdn54zx0le",
         origin="test-origin",
     )
 
@@ -223,7 +223,7 @@ def test_verify_signed_challenge_with_non_supported_curve():
     challenge = token_bytes(32)
     message = create_signature_message(
         challenge=challenge,
-        dapp_definition_address="account_tdx",
+        dapp_definition_address="account_tdx_2_12xdm5g7xdhh73zkh7xkty0dsxw4rw0jl0sq4lr3erpc3xdn54zx0le",
         origin="test-origin",
     )
 
@@ -245,7 +245,7 @@ def test_verify_signed_challenge_fails_when_wrong_message_is_created_using_a_sec
     challenge = token_bytes(32)
     message = create_signature_message(
         challenge=challenge,
-        dapp_definition_address="account_tdx",
+        dapp_definition_address="account_tdx_2_12xdm5g7xdhh73zkh7xkty0dsxw4rw0jl0sq4lr3erpc3xdn54zx0le",
         origin="test-origin",
     )
 
@@ -255,7 +255,7 @@ def test_verify_signed_challenge_fails_when_wrong_message_is_created_using_a_sec
 
     verifying_message = create_signature_message(
         challenge=challenge,
-        dapp_definition_address="account_tdx",
+        dapp_definition_address="account_tdx_2_12xdm5g7xdhh73zkh7xkty0dsxw4rw0jl0sq4lr3erpc3xdn54zx0le",
         origin="origin",
     )
 
@@ -273,7 +273,7 @@ def test_verify_signed_challenge_fails_when_wrong_message_is_created_using_a_ed2
     challenge = token_bytes(32)
     message = create_signature_message(
         challenge=challenge,
-        dapp_definition_address="account_tdx",
+        dapp_definition_address="account_tdx_2_12xdm5g7xdhh73zkh7xkty0dsxw4rw0jl0sq4lr3erpc3xdn54zx0le",
         origin="test-origin",
     )
 
@@ -283,7 +283,7 @@ def test_verify_signed_challenge_fails_when_wrong_message_is_created_using_a_ed2
 
     verifying_message = create_signature_message(
         challenge=challenge,
-        dapp_definition_address="account_tdx",
+        dapp_definition_address="account_tdx_2_12xdm5g7xdhh73zkh7xkty0dsxw4rw0jl0sq4lr3erpc3xdn54zx0le",
         origin="origin",
     )
 
