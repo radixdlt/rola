@@ -1,18 +1,10 @@
-import os
-from secrets import token_bytes
-
-from ecdsa import SigningKey, SECP256k1, VerifyingKey
 from radix_engine_toolkit import Curve
-from secp256k1 import PrivateKey
-
-# from radix_engine_toolkit import Curve, PrivateKey, Hash
 
 from rola.core import Rola
 from rola.models.challenge import ChallengeType
 from rola.models.proof import Proof
 from rola.models.signed_challenge import SignedChallenge
 from rola.utils.gateway import GatewayMetadataProvider
-from rola.utils.helpers import create_signature_message
 
 
 def test_verify_signed_challenge_with_ed25519_curve():
