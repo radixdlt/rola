@@ -26,21 +26,24 @@ class SignedChallenge:
     def verify_signature(self, signature_message: bytes) -> bool:
         # Create a verifying key object from the public key
         if self.proof.curve == Curve.ED25519:
-            verify_key = ed25519.VerifyingKey(self.proof.public_key)
             try:
+                verify_key = ed25519.VerifyingKey(self.proof.public_key)
                 verify_key.verify(self.proof.signature, signature_message)
                 return True
             except ed25519.BadSignatureError:
                 logger.info("Signature is invalid.")
                 return False
+            except AttributeError as e:
+                logger.info(f"Signature is invalid: {e}")
+                return False
+            except AssertionError as e:
+                logger.info(f"Signature is invalid: {e}")
+                return False
         elif self.proof.curve == Curve.SECP256K1:
-            verify_key = VerifyingKey.from_string(
-                self.proof.public_key, curve=SECP256k1
-            )
-
-            # Verify the signature
             try:
-                # Verifying the signature for the given message
+                verify_key = VerifyingKey.from_string(
+                    self.proof.public_key, curve=SECP256k1
+                )
                 verify_key.verify(self.proof.signature, signature_message)
                 logger.info("Signature is valid.")
                 return True
