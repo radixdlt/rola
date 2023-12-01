@@ -1,3 +1,6 @@
+from secrets import token_bytes
+
+from ecdsa import SigningKey, SECP256k1
 from radix_engine_toolkit import Curve
 
 from rola.models.challenge import ChallengeType
@@ -58,3 +61,25 @@ def _test_verify_signature_for_a_secp256k1_curve():
 
     signature_verified = signed_challenge.verify_signature(signature_message)
     assert signature_verified
+
+
+def test_verify_signed_challenge_with_secp256k1_curve():
+    challenge = token_bytes(32)
+    message = create_signature_message(
+        challenge=challenge,
+        dapp_definition_address="account_tdx_2_12xdm5g7xdhh73zkh7xkty0dsxw4rw0jl0sq4lr3erpc3xdn54zx0le",
+        origin="test-origin",
+    )
+
+    priv_key = SigningKey.generate(curve=SECP256k1)
+    public_key = priv_key.get_verifying_key().to_string("compressed")
+    signature = priv_key.sign(message)
+
+    signed_challenge = SignedChallenge(
+        challenge=challenge,
+        proof=Proof(public_key=public_key, signature=signature, curve=Curve.SECP256K1),
+        address="identity_tdx_2_12gc7ajs0araj6ph78dqqd0cvzzcegfygu55jst77vnee2nd05vp8wc",
+        challenge_type=ChallengeType.PERSONA,
+    )
+
+    assert signed_challenge.verify_signature(message)

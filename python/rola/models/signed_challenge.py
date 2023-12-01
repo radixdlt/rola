@@ -1,8 +1,9 @@
 import logging
 
 import ed25519
-from ecdsa import SECP256k1, SigningKey
+from ecdsa import SECP256k1, SigningKey, VerifyingKey
 from radix_engine_toolkit import Curve
+from secp256k1 import PublicKey
 
 from rola.models.challenge import ChallengeType
 from rola.models.proof import Proof
@@ -35,16 +36,16 @@ class SignedChallenge:
                 logger.info("Signature is invalid.")
                 return False
         elif self.proof.curve == Curve.SECP256K1:
-            verify_key = SigningKey.from_string(
+            verify_key = VerifyingKey.from_string(
                 self.proof.public_key, curve=SECP256k1
-            ).verifying_key
+            )
 
             # Verify the signature
             try:
                 # Verifying the signature for the given message
-                result = verify_key.verify(self.proof.signature, signature_message)
+                verify_key.verify(self.proof.signature, signature_message)
                 logger.info("Signature is valid.")
-                return result if type(result) == bool else False
+                return True
             except Exception as e:
                 return False
         else:
