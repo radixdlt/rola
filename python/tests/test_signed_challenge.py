@@ -67,7 +67,7 @@ def test_verify_signed_challenge_with_secp256k1_curve():
     challenge = token_bytes(32)
     message = create_signature_message(
         challenge=challenge,
-        dapp_definition_address="account_tdx_2_12xdm5g7xdhh73zkh7xkty0dsxw4rw0jl0sq4lr3erpc3xdn54zx0le",
+        dapp_definition_address="account_tdx",
         origin="test-origin",
     )
 
@@ -78,7 +78,7 @@ def test_verify_signed_challenge_with_secp256k1_curve():
     signed_challenge = SignedChallenge(
         challenge=challenge,
         proof=Proof(public_key=public_key, signature=signature, curve=Curve.SECP256K1),
-        address="identity_tdx_2_12gc7ajs0araj6ph78dqqd0cvzzcegfygu55jst77vnee2nd05vp8wc",
+        address="identity",
         challenge_type=ChallengeType.PERSONA,
     )
 

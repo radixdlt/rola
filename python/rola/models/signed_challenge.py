@@ -1,10 +1,8 @@
 import logging
 
 import ed25519
-from ecdsa import SECP256k1, SigningKey, VerifyingKey
+from ecdsa import SECP256k1, VerifyingKey
 from radix_engine_toolkit import Curve
-from secp256k1 import PublicKey
-
 from rola.models.challenge import ChallengeType
 from rola.models.proof import Proof
 
