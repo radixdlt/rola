@@ -1,4 +1,3 @@
-from ecdsa import Ed25519, SECP256k1
 from radix_engine_toolkit import (
     derive_virtual_identity_address_from_public_key,
     PublicKey,

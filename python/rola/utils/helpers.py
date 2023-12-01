@@ -2,6 +2,8 @@ import hashlib
 import logging
 from hashlib import blake2b
 
+from rola.exceptions.helpers import ChallengeWrongLength, DappAddressWrongLength
+
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
@@ -29,10 +31,15 @@ def create_signature_message(
         The bytes of the origin UTF-8 encoded
     """
     prefix = "R".encode()
+    if len(challenge) != 32:
+        raise ChallengeWrongLength
     length_of_dapp_def_address = len(dapp_definition_address)
+    if length_of_dapp_def_address != 69:
+        raise DappAddressWrongLength
     length_of_dapp_def_address_bytes = length_of_dapp_def_address.to_bytes(
         1, byteorder="big"
     )
+
     dapp_def_address_bytes = bytes([ord(c) for c in dapp_definition_address])
     origin_bytes = bytes([ord(c) for c in origin])
 
