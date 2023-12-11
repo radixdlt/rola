@@ -45,13 +45,10 @@ class Rola:
             if public_key_hash_hex in hash:
                 hash_found = True
         if not hash_found:
-            return False
-
-        # derive address from public key
-        derived_address = derive_address(
-            network_id=int(self.network_id), signed_challenge=signed_challenge
-        )
-        if not derived_address.address_string() == signed_challenge.address:
-            return False
+            derived_address = derive_address(
+                network_id=int(self.network_id), signed_challenge=signed_challenge
+            )
+            if not derived_address.address_string() == signed_challenge.address:
+                return False
 
         return True
