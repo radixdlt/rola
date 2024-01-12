@@ -18,9 +18,9 @@ ROLA is intended for use in the server backend portion of a Full Stack dApp. It 
 
 # License
 
- The Radix Off-Ledger Authentication (ROLA) code binaries are licensed under the [Radix Software EULA](http://www.radixdlt.com/terms/genericEULA).
+ The Radix Off-Ledger Authentication (ROLA) binaries are licensed under the [Radix Software EULA](http://www.radixdlt.com/terms/genericEULA).
 
-The Radix Off-Ledger Authentication (ROLA) code and examples is released under [Apache 2.0 license](LICENSE).
+The Radix Off-Ledger Authentication (ROLA) code and examples are released under [Apache 2.0 license](LICENSE).
 
       Copyright 2023 Radix Publishing Ltd
 
