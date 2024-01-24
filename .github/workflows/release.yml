@@ -3,7 +3,10 @@ on:
   push:
     branches:
       - develop
-      - release/*
+      - main
+      - release/* 
+    paths:
+      - 'typescript/**'
   workflow_dispatch:
 
 jobs:
