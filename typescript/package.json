@@ -86,7 +86,7 @@
     "vite-tsconfig-paths": "^4.2.0"
   },
   "dependencies": {
-    "@radixdlt/babylon-gateway-api-sdk": "^1.2.7",
+    "@radixdlt/babylon-gateway-api-sdk": "^1.4.0",
     "@radixdlt/radix-engine-toolkit": "1.0.3",
     "elliptic": "^6.5.4",
     "neverthrow": "^6.0.0"
