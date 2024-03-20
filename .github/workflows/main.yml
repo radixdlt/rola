@@ -81,9 +81,9 @@ jobs:
         working-directory: ./typescript
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: RDXWorks-actions/checkout@main
       - name: Use Node.js
-        uses: actions/setup-node@v3
+        uses: RDXWorks-actions/setup-node@main
         with:
           node-version: '18.x'
 
@@ -102,7 +102,7 @@ jobs:
       - name: Prepare artifact
         run: rm -rf node_modules e2e src sandbox
 
-      - uses: actions/upload-artifact@v3
+      - uses: RDXWorks-actions/upload-artifact@main
         with:
           name: typescript-rola.${{ github.sha }}
           path: .

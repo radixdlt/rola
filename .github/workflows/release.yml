@@ -19,11 +19,11 @@ jobs:
         working-directory: ./typescript
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: RDXWorks-actions/checkout@main
         with:
           fetch-depth: 0
       - name: Setup Node.js
-        uses: actions/setup-node@v2
+        uses: RDXWorks-actions/setup-node@main
         with:
           node-version: 'lts/*'
       - name: Install dependencies
