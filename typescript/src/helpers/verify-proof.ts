@@ -25,11 +25,9 @@ export const verifyProofFactory =
         )
         isValid = publicKey.verify(signatureMessageHex, input.proof.signature)
       } else {
-        const signature = Buffer.from(input.proof.signature, 'hex')
-          .toJSON()
-          .data.slice(1)
-        const r = signature.slice(0, 32)
-        const s = signature.slice(32, 64)
+        const signature = input.proof.signature.slice(2)
+        const r = signature.slice(0, 64)
+        const s = signature.slice(64, 128)
         isValid = secp256k1
           .keyFromPublic(input.proof.publicKey, 'hex')
           .verify(signatureMessageHex, { r, s })
