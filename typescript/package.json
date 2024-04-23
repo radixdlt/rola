@@ -21,6 +21,7 @@
     "Alex Stelea <alex.stelea@rdx.works>",
     "Dawid Sowa <dawid.sowa@rdx.works>"
   ],
+  "type": "module",
   "bugs": "https://github.com/radixdlt/rola/issues",
   "license": "SEE LICENSE IN RADIX-SOFTWARE-EULA",
   "engines": {
@@ -30,23 +31,22 @@
     "dist",
     "RADIX-SOFTWARE-EULA"
   ],
-  "main": "./dist/rola.mjs",
+  "main": "./dist/rola.js",
+  "types": "./dist/rola.d.ts",
   "exports": {
     ".": {
       "import": {
         "types": "./dist/rola.d.ts",
-        "default": "./dist/rola.mjs"
+        "default": "./dist/rola.js"
       },
       "require": {
-        "types": "./dist/rola.d.ts",
-        "default": "./dist/rola.umd.js"
+        "types": "./dist/rola.d.cts",
+        "default": "./dist/rola.cjs"
       }
     }
   },
-  "types": "./dist/rola.d.ts",
   "scripts": {
-    "build": "vite build && npm run build:types",
-    "build:types": "tsc --project tsconfig.types.json --emitDeclarationOnly",
+    "build": "tsup src/rola.ts",
     "prettier": "prettier --cache --check src",
     "prettier:fix": "prettier --cache --write src",
     "lint": "eslint --cache \"src/**/*.{ts,tsx}\"",
@@ -80,15 +80,15 @@
     "semantic-release": "^21.1.1",
     "ts-jest": "^29.1.1",
     "ts-node": "^10.9.1",
-    "typescript": "^5.2.2",
-    "vite": "^4.4.9",
-    "vite-tsconfig-paths": "^4.2.0"
+    "tsup": "^8.0.2",
+    "typescript": "^5.2.2"
   },
   "dependencies": {
-    "@noble/curves": "1.4.0",
-    "@radixdlt/babylon-gateway-api-sdk": "1.4.0",
-    "@radixdlt/radix-engine-toolkit": "1.0.3",
-    "neverthrow": "6.0.0"
+    "@noble/curves": "^1.4.0",
+    "@radixdlt/babylon-gateway-api-sdk": "^1.4.1",
+    "@radixdlt/radix-engine-toolkit": "^1.0.3",
+    "blakejs": "^1.2.1",
+    "neverthrow": "^6.1.0"
   },
   "repository": {
     "type": "git",
