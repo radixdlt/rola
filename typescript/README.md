@@ -18,10 +18,11 @@ ROLA is intended for use in the server backend portion of a Full Stack dApp. It 
 
 ```typescript
 import 'isomorphic-fetch'
-import { Rola, NetworkId, SignedChallenge } from '@radixdlt/rola'
+import { Rola, SignedChallenge } from '@radixdlt/rola'
+import { NetworkId } from '@radixdlt/babylon-gateway-api-sdk'
 
 const { verifySignedChallenge } = Rola({
-  networkId: NetworkId.RCNetV3,
+  networkId: NetworkId.Stokenet,
   applicationName: 'Gumball Club',
   dAppDefinitionAddress:
     'account_tdx_e_128uml7z6mqqqtm035t83alawc3jkvap9sxavecs35ud3ct20jxxuhl',
