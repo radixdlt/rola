@@ -10,7 +10,6 @@ import { GatewayService } from './gateway'
 import type { GatewayApiClient } from '@radixdlt/babylon-gateway-api-sdk'
 import type { SignedChallenge } from './types'
 
-export { NetworkId } from '@radixdlt/radix-engine-toolkit'
 export type RolaError = { reason: string; jsError?: Error }
 export type * from './types'
 
