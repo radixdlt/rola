@@ -21,5 +21,3 @@ def test_gateway_raises_400_error_when_invalid_address():
         gateway_metadata_provider.entity_owner(address="identity_tdx_test")
     except HTTPError as e:
         assert e.response.status_code == 400
-
-
