@@ -39,10 +39,13 @@ class SignedChallenge:
             except AssertionError as e:
                 logger.info(f"Signature is invalid: {e}")
                 return False
+            except Exception as e:
+                logger.info(f"Verify signature exception: {e}")
+                return False
         elif self.proof.curve == Curve.SECP256K1:
             try:
                 verify_key = VerifyingKey.from_string(
-                    self.proof.public_key, curve=SECP256k1
+                    string=self.proof.public_key, curve=SECP256k1
                 )
                 verify_key.verify(self.proof.signature, signature_message)
                 logger.info("Signature is valid.")
