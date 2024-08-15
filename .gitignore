@@ -26,3 +26,7 @@ dist-ssr
 /playwright-report/
 /playwright/.cache/
 .eslintcache
+
+*.pyc
+python/build/
+rola.egg-info/
