@@ -54,7 +54,7 @@
     "preview": "vite preview",
     "pre-push": "npm run build && npm run lint && npm run prettier && npm run test",
     "prepare": "cd .. && npx husky install",
-    "test": "jest --passWithNoTests",
+    "test": "jest --passWithNoTests --collectCoverage",
     "test:watch": "jest --watch",
     "semantic-release": "semantic-release"
   },
