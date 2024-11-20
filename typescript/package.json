@@ -54,7 +54,7 @@
     "preview": "vite preview",
     "pre-push": "npm run build && npm run lint && npm run prettier && npm run test",
     "prepare": "cd .. && npx husky install",
-    "test": "jest --passWithNoTests",
+    "test": "jest --passWithNoTests --collectCoverage",
     "test:watch": "jest --watch",
     "semantic-release": "semantic-release"
   },
@@ -88,7 +88,7 @@
     "@radixdlt/babylon-gateway-api-sdk": "^1.4.1",
     "@radixdlt/radix-engine-toolkit": "^1.0.5",
     "blakejs": "^1.2.1",
-    "neverthrow": "^6.1.0"
+    "neverthrow": "^6 || ^7 || ^8"
   },
   "repository": {
     "type": "git",

@@ -5,7 +5,7 @@ import {
   DataRequestBuilder,
   RadixDappToolkit,
   RadixNetwork,
-  createLogger,
+  Logger,
 } from '@radixdlt/radix-dapp-toolkit'
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
@@ -29,7 +29,7 @@ const radixDappToolkit = RadixDappToolkit({
   dAppDefinitionAddress:
     'account_tdx_2_12yf9gd53yfep7a669fv2t3wm7nz9zeezwd04n02a433ker8vza6rhe',
   networkId: RadixNetwork.Stokenet,
-  logger: createLogger(1),
+  logger: Logger(1),
 })
 
 // Clear the dApp state for example purposes

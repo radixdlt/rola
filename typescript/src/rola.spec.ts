@@ -81,4 +81,29 @@ describe('Rola verifySignedChallenge', () => {
       if (result.isErr()) throw result.error.jsError
     }
   })
+
+  it('should return error for invalid public key', async () => {
+    const result = await Rola({
+      networkId: NetworkId.Mainnet,
+      applicationName: 'test',
+      dAppDefinitionAddress:
+        'account_rdx12y7md4spfq5qy7e3mfjpa52937uvkxf0nmydsu5wydkkxw3qx6nghn',
+      expectedOrigin: 'https://dev-sandbox.rdx-works-main.extratools.works',
+    }).verifySignedChallenge({
+      proof: {
+        publicKey: '028704afaadc0020d5asdfae9e918db1da59ab11a21a2ff',
+        signature:
+          '01762e65c4d01df7bdda9d6ec2b6c1d1df7233e2bb57cf0c6e3e6ccf9f750fb777333e041232c5bedd831ab0e70bcaae08b4f390b122ae5e7e801fb3fba155ed98',
+        curve: 'secp256k1',
+      },
+      address:
+        'account_rdx16xtfz7339kx27nhzelg6p9d933x9fjwv6nxa9cyy8pvcmmvfaxslu4',
+      challenge:
+        'ed45e21bdcfabb47e0c0513cf7179497b41742c368f1a23f37af9a9c43ab1b27',
+      type: 'account',
+    } satisfies SignedChallenge)
+
+    if (result.isOk()) throw new Error('Expected error')
+    expect(result.error.reason).toBe('invalidPublicKey')
+  })
 })
