@@ -1,6 +1,6 @@
-[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) <a href="https://www.npmjs.com/@radixdlt/rola"><img src="https://img.shields.io/npm/v/@radixdlt/rola.svg?logo=npm&logoColor=fff&label=NPM+package&color=limegreen" alt="ROLA on NPM" /></a> <a href="https://www.npmjs.com/@radixdlt/rola"><img src="https://img.shields.io/npm/dm/@radixdlt/rola" alt="downloads" /></a>
 
-# ROLA (Radix Off-Ledger Authentication)
+## Typescript ROLA
 
 ROLA is a method of authenticating something claimed by the user connected to your dApp with the Radix Wallet. It uses the capabilities of the Radix Network to make this possible in a way that is decentralized and flexible for the user.
 
@@ -12,12 +12,11 @@ ROLA is intended for use in the server backend portion of a Full Stack dApp. It 
 
 ## Getting started
 
-`npm install @radixdlt/rola isomorphic-fetch`
+`npm install @radixdlt/rola`
 
 ## How to use
 
 ```typescript
-import 'isomorphic-fetch'
 import { Rola, SignedChallenge } from '@radixdlt/rola'
 import { NetworkId } from '@radixdlt/babylon-gateway-api-sdk'
 
@@ -53,9 +52,9 @@ if (result.isErr()) throw result.error
 
 ## Examples
 
-[Full stack example](https://github.com/radixdlt/rola-examples)
-
-- [Typescript full-stack](/examples/typescript-full-stack/README.md)
+- [Typescript full-stack](../examples/typescript-full-stack/README.md)
+- [ROLA as AWS service](../examples/typescript-rola-as-a-service/README.md)
+- [Radix Dashboard ROLA](https://github.com/radixdlt/dapps-monorepo/blob/c49d6b583092f83da033061fe0f5e94ef4e45071/apps/dashboard/src/server/auth/controller.ts#L35)
 
 # License
 
