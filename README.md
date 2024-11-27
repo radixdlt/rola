@@ -40,7 +40,7 @@
 
 ## Implementations
 
-- [Typescript](typescrit/README.md)
+- [Typescript](typescript/README.md)
 - [Python](python/README.md)
 
 ## Documented examples
