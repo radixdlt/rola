@@ -1,4 +1,4 @@
-name: Build typescript ROLA
+name: Build ROLA
 
 on:
   push:
