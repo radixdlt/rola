@@ -1,22 +1,72 @@
-# ROLA (Radix Off-Ledger Authentication)
+<div align="center">
+  <img src="docs/radix-logo.png" alt="Radix Logo" width="100">
 
-ROLA is a method of authenticating something claimed by the user connected to your dApp with the Radix Wallet. It uses the capabilities of the Radix Network to make this possible in a way that is decentralized and flexible for the user.
+# Radix Off-Ledger Authentication
 
-ROLA is intended for use in the server backend portion of a Full Stack dApp. It runs "off-ledger" alongside backend business and user management logic, providing reliable authentication of claims of user control using "on-ledger" data from the Radix Network.
+<em>ROLA is a decentralized authentication method designed to securely verify user identities and accounts, enhancing privacy and trust in Web3 applications built on the Radix network.</em>
+
+<a href="https://radixdlt.com/"><strong>radixdlt.com</strong></a>
+
+</div>
+
+<p align="center">
+  <a href="https://docs.radixdlt.com/docs">Radix Docs</a>
+  ·
+  <a href="CONTRIBUTING.md">Contributing Guidelines</a>
+  ·
+  <a href="https://github.com/radixdlt/rola/issues">Submit an Issue</a>
+</p>
+
+<p align="center">
+  <a href="LICENSE">
+    <img src="https://img.shields.io/badge/License-Apache_2.0-blue.svg" alt="license" />
+  </a>
+  
+  <a href="http://discord.gg/radixdlt">
+    <img src="https://img.shields.io/discord/417762285172555786.svg?logo=discord&logoColor=fff&label=Discord&color=7389d8" alt="Discord conversation" />
+  </a>
+
+</p>
+
+<hr/>
+
+**ROLA (Radix Off-Ledger Authentication)** is a method of authenticating something claimed by the user connected to your dApp with the Radix Wallet. It uses the capabilities of the Radix Network to make this possible in a way that is decentralized and flexible for the user.
+
+**ROLA** is intended for use in the server backend portion of a Full Stack dApp. It runs "off-ledger" alongside backend business and user management logic, providing reliable authentication of claims of user control using "on-ledger" data from the Radix Network.
 
 ## Resources
 
-[What is ROLA](https://docs-babylon.radixdlt.com/main/frontend/rola.html)
+- [Radix Documentation on ROLA](https://docs.radixdlt.com/docs/rola-radix-off-ledger-auth)
 
 ## Implementations
 
-- [NPM](https://www.npmjs.com/package/@radixdlt/rola)
+- [Typescript](typescrit/README.md)
+- [Python](python/README.md)
 
 ## Documented examples
 
 - [Typescript full-stack](/examples/typescript-full-stack/README.md)
+- [Typescript AWS service](/examples/typescript-rola-as-a-service/README.md)
 
-# License
+## Community
+
+Join the conversation and help the community.
+
+- [X][X]
+- [Discord][discord]
+- [YouTube][youtube]
+- [GitHub](https://github.com/radixdlt)
+- [Blog](https://www.radixdlt.com/blog)
+
+**Love ROLA? Give our repo a star :star: :arrow_up:.**
+
+[node.js]: https://nodejs.org/
+[npm]: https://www.npmjs.com/get-npm
+[X]: https://x.com/RadixDLT
+[discord]: http://discord.gg/radixdlt
+[youtube]: https://www.youtube.com/c/radixdlt
+
+## License
 
 The Radix Off-Ledger Authentication (ROLA) binaries are licensed under the [Radix Software EULA](http://www.radixdlt.com/terms/genericEULA).
 
