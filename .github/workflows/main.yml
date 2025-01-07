@@ -37,7 +37,7 @@ jobs:
       - name: Snyk test for Node/TypeScript
         run: |
           cd typescript
-          snyk test --file=package.json
+          snyk test --file=package.json --org=${{ env.SNYK_PROJECTS_ORG_ID }} --severity-threshold=high
       - name: Snyk monitor for Node/TypeScript
         run: |
           cd typescript
@@ -56,7 +56,7 @@ jobs:
       - name: Snyk test for Python
         run: |
           cd python
-          snyk test --file=requirements.txt
+          snyk test --file=requirements.txt --org=${{ env.SNYK_PROJECTS_ORG_ID }} --severity-threshold=high
       - name: Snyk monitor for Python
         run: |
           cd python
