@@ -22,7 +22,7 @@
     <img src="https://img.shields.io/badge/License-Apache_2.0-blue.svg" alt="license" />
   </a>
   
-  <a href="http://discord.gg/radixdlt">
+  <a href="https://go.radixdlt.com/Discord">
     <img src="https://img.shields.io/discord/417762285172555786.svg?logo=discord&logoColor=fff&label=Discord&color=7389d8" alt="Discord conversation" />
   </a>
 
