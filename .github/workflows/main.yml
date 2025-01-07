@@ -14,7 +14,7 @@ jobs:
       contents: read
       deployments: write
     steps:
-      - uses: actions/checkout@755da8c3cf115ac066823e79a1e1788f8940201b
+      - uses: RDXWorks-actions/checkout@main
       - uses: radixdlt/public-iac-resuable-artifacts/fetch-secrets@main
         with:
           role_name: ${{ secrets.AWS_ROLE_NAME_SNYK_SECRET }}
@@ -24,7 +24,7 @@ jobs:
           secret_name: ${{ secrets.AWS_SECRET_NAME_SNYK }}
           parse_json: true
       - name: Run Snyk to check for deps vulnerabilities
-        uses: snyk/actions/node@b98d498629f1c368650224d6d212bf7dfa89e4bf # v0.4.0
+        uses: RDXWorks-actions/snyk-actions/node@master
         with:
           args: --all-projects --org=${{ env.SNYK_PROJECTS_ORG_ID }} --severity-threshold=critical
 
@@ -36,7 +36,7 @@ jobs:
       contents: read
       deployments: write
     steps:
-      - uses: actions/checkout@755da8c3cf115ac066823e79a1e1788f8940201b
+      - uses: RDXWorks-actions/checkout@main
       - uses: radixdlt/public-iac-resuable-artifacts/fetch-secrets@main
         with:
           role_name: ${{ secrets.AWS_ROLE_NAME_SNYK_SECRET }}
@@ -46,7 +46,7 @@ jobs:
           secret_name: ${{ secrets.AWS_SECRET_NAME_SNYK }}
           parse_json: true
       - name: Run Snyk to check for code vulnerabilities
-        uses: snyk/actions/node@b98d498629f1c368650224d6d212bf7dfa89e4bf # v0.4.0
+        uses: RDXWorks-actions/snyk-actions/node@master
         with:
           args: --all-projects --org=${{ env.SNYK_PROJECTS_ORG_ID }} --severity-threshold=high
           command: code test
@@ -59,7 +59,7 @@ jobs:
       contents: read
       deployments: write
     steps:
-      - uses: actions/checkout@755da8c3cf115ac066823e79a1e1788f8940201b
+      - uses: RDXWorks-actions/checkout@main
       - uses: radixdlt/public-iac-resuable-artifacts/fetch-secrets@main
         with:
           role_name: ${{ secrets.AWS_ROLE_NAME_SNYK_SECRET }}
@@ -69,7 +69,7 @@ jobs:
           secret_name: ${{ secrets.AWS_SECRET_NAME_SNYK }}
           parse_json: true
       - name: Generate SBOM # check SBOM can be generated but nothing is done with it
-        uses: snyk/actions/node@b98d498629f1c368650224d6d212bf7dfa89e4bf # v0.4.0
+        uses: RDXWorks-actions/snyk-actions/node@master
         with:
           args: --all-projects --org=${{ env.SNYK_PROJECTS_ORG_ID }} --format=cyclonedx1.4+json --json-file-output sbom.json
           command: sbom
@@ -149,7 +149,7 @@ jobs:
       contents: read
       deployments: write
     steps:
-      - uses: actions/checkout@755da8c3cf115ac066823e79a1e1788f8940201b
+      - uses: RDXWorks-actions/checkout@main
       - uses: radixdlt/public-iac-resuable-artifacts/fetch-secrets@main
         with:
           role_name: ${{ secrets.AWS_ROLE_NAME_SNYK_SECRET }}
@@ -159,7 +159,7 @@ jobs:
           secret_name: ${{ secrets.AWS_SECRET_NAME_SNYK }}
           parse_json: true
       - name: Enable Snyk online monitoring to check for vulnerabilities
-        uses: snyk/actions/node@b98d498629f1c368650224d6d212bf7dfa89e4bf # v0.4.0
+        uses: RDXWorks-actions/snyk-actions/node@master
         with:
           args: --all-projects --org=${{ env.SNYK_PROJECTS_ORG_ID }} --target-reference=${{ github.ref_name }}
           command: monitor
