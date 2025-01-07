@@ -38,6 +38,9 @@ jobs:
         run: |
           cd typescript
           snyk test --file=package.json
+      - name: Snyk monitor for Node/TypeScript
+        run: |
+          cd typescript
           snyk monitor --file=package.json --org="${{ env.SNYK_PROJECTS_ORG_ID }}" --target-reference="${{ github.ref_name }}"
 
       # Scan Python Project
@@ -54,7 +57,11 @@ jobs:
         run: |
           cd python
           snyk test --file=requirements.txt
+      - name: Snyk monitor for Python
+        run: |
+          cd python
           snyk monitor --file=requirements.txt --org="${{ env.SNYK_PROJECTS_ORG_ID }}" --target-reference="${{ github.ref_name }}"
+
 
   # test_and_lint_typescript:
   #   runs-on: ubuntu-latest
