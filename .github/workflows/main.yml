@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  snyk_scan_deps_licences:
+  snyk_scan_monitor:
     runs-on: ubuntu-latest
     permissions:
       id-token: write
@@ -19,60 +19,42 @@ jobs:
         with:
           role_name: ${{ secrets.AWS_ROLE_NAME_SNYK_SECRET }}
           app_name: 'rola'
-          step_name: 'snyk-scan-deps-licenses'
+          step_name: 'snyk-monitor'
           secret_prefix: 'SNYK'
           secret_name: ${{ secrets.AWS_SECRET_NAME_SNYK }}
           parse_json: true
-      - name: Run Snyk to check for deps vulnerabilities
-        uses: RDXWorks-actions/snyk-actions/node@master
-        with:
-          args: --all-projects --org=${{ env.SNYK_PROJECTS_ORG_ID }} --severity-threshold=critical
 
-  snyk_scan_code:
-    runs-on: ubuntu-latest
-    permissions:
-      id-token: write
-      pull-requests: read
-      contents: read
-      deployments: write
-    steps:
-      - uses: RDXWorks-actions/checkout@main
-      - uses: radixdlt/public-iac-resuable-artifacts/fetch-secrets@main
-        with:
-          role_name: ${{ secrets.AWS_ROLE_NAME_SNYK_SECRET }}
-          app_name: 'rola'
-          step_name: 'snyk-scan-code'
-          secret_prefix: 'SNYK'
-          secret_name: ${{ secrets.AWS_SECRET_NAME_SNYK }}
-          parse_json: true
-      - name: Run Snyk to check for code vulnerabilities
-        uses: RDXWorks-actions/snyk-actions/node@master
-        with:
-          args: --all-projects --org=${{ env.SNYK_PROJECTS_ORG_ID }} --severity-threshold=high
-          command: code test
+      - name: Install Snyk cli
+        run: |
+          npm install snyk@1.1292.1 -g
+          snyk auth "${{ env.SNYK_TOKEN }}"
 
-  snyk_sbom:
-    runs-on: ubuntu-latest
-    permissions:
-      id-token: write
-      pull-requests: read
-      contents: read
-      deployments: write
-    steps:
-      - uses: RDXWorks-actions/checkout@main
-      - uses: radixdlt/public-iac-resuable-artifacts/fetch-secrets@main
+      # Scan Node/TypeScript Project
+      - name: Install Node dependencies
+        run: |
+          cd typescript
+          npm install
+      - name: Snyk test for Node/TypeScript
+        run: |
+          cd typescript
+          snyk test --file=package.json
+          snyk monitor --file=package.json --org="${{ env.SNYK_PROJECTS_ORG_ID }}" --target-reference="${{ github.ref_name }}"
+
+      # Scan Python Project
+      - name: Set up Python
+        uses: RDXWorks-actions/setup-python@main
         with:
-          role_name: ${{ secrets.AWS_ROLE_NAME_SNYK_SECRET }}
-          app_name: 'rola'
-          step_name: 'snyk-sbom'
-          secret_prefix: 'SNYK'
-          secret_name: ${{ secrets.AWS_SECRET_NAME_SNYK }}
-          parse_json: true
-      - name: Generate SBOM # check SBOM can be generated but nothing is done with it
-        uses: RDXWorks-actions/snyk-actions/node@master
-        with:
-          args: --all-projects --org=${{ env.SNYK_PROJECTS_ORG_ID }} --format=cyclonedx1.4+json --json-file-output sbom.json -d
-          command: sbom
+          python-version: "3.8"
+      - name: Install Python dependencies
+        run: |
+          cd python
+          pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Snyk test for Python
+        run: |
+          cd python
+          snyk test --file=requirements.txt
+          snyk monitor --file=requirements.txt --org="${{ env.SNYK_PROJECTS_ORG_ID }}" --target-reference="${{ github.ref_name }}"
 
   # test_and_lint_typescript:
   #   runs-on: ubuntu-latest
@@ -137,29 +119,3 @@ jobs:
   #         pip install pytest
   #         pytest tests/
 
-  snyk_monitor:
-    runs-on: ubuntu-latest
-    # if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop')
-    # needs:
-    #   - test_and_lint_typescript
-    #   - test_and_lint_python
-    permissions:
-      id-token: write
-      pull-requests: read
-      contents: read
-      deployments: write
-    steps:
-      - uses: RDXWorks-actions/checkout@main
-      - uses: radixdlt/public-iac-resuable-artifacts/fetch-secrets@main
-        with:
-          role_name: ${{ secrets.AWS_ROLE_NAME_SNYK_SECRET }}
-          app_name: 'rola'
-          step_name: 'snyk-monitor'
-          secret_prefix: 'SNYK'
-          secret_name: ${{ secrets.AWS_SECRET_NAME_SNYK }}
-          parse_json: true
-      - name: Enable Snyk online monitoring to check for vulnerabilities
-        uses: RDXWorks-actions/snyk-actions/node@master
-        with:
-          args: --all-projects --org=${{ env.SNYK_PROJECTS_ORG_ID }} --target-reference=${{ github.ref_name }} -d
-          command: monitor
