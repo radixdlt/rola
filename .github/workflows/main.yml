@@ -29,16 +29,16 @@ jobs:
           npm install snyk@1.1292.1 -g
           snyk auth "${{ env.SNYK_TOKEN }}"
 
-      # Scan Node/TypeScript Project
+      # Scan TypeScript Project
       - name: Install Node dependencies
         run: |
           cd typescript
           npm install
-      - name: Snyk test for Node/TypeScript
+      - name: Snyk test for TypeScript
         run: |
           cd typescript
           snyk test --file=package.json --org=${{ env.SNYK_PROJECTS_ORG_ID }} --severity-threshold=high
-      - name: Snyk monitor for Node/TypeScript
+      - name: Snyk monitor for TypeScript
         run: |
           cd typescript
           snyk monitor --file=package.json --org="${{ env.SNYK_PROJECTS_ORG_ID }}" --target-reference="${{ github.ref_name }}"
@@ -63,66 +63,66 @@ jobs:
           snyk monitor --file=requirements.txt --org="${{ env.SNYK_PROJECTS_ORG_ID }}" --target-reference="${{ github.ref_name }}"
 
 
-  # test_and_lint_typescript:
-  #   runs-on: ubuntu-latest
-  #   defaults:
-  #     run:
-  #       working-directory: ./typescript
+  test_and_lint_typescript:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./typescript
 
-  #   steps:
-  #     - uses: RDXWorks-actions/checkout@main
-  #     - name: Use Node.js
-  #       uses: RDXWorks-actions/setup-node@main
-  #       with:
-  #         node-version: '18.x'
+    steps:
+      - uses: RDXWorks-actions/checkout@main
+      - name: Use Node.js
+        uses: RDXWorks-actions/setup-node@main
+        with:
+          node-version: '18.x'
 
-  #     - name: Install dependencies
-  #       run: npm ci
+      - name: Install dependencies
+        run: npm ci
 
-  #     - name: Running lint
-  #       run: npm run lint
+      - name: Running lint
+        run: npm run lint
 
-  #     - name: Running tests
-  #       run: npm run test
+      - name: Running tests
+        run: npm run test
 
-  #     - name: Build
-  #       run: npm run build
+      - name: Build
+        run: npm run build
 
-  #     - name: Prepare artifact
-  #       run: rm -rf node_modules e2e src sandbox
+      - name: Prepare artifact
+        run: rm -rf node_modules e2e src sandbox
 
-  #     - uses: RDXWorks-actions/upload-artifact@main
-  #       with:
-  #         name: typescript-rola.${{ github.sha }}
-  #         path: .
+      - uses: RDXWorks-actions/upload-artifact@main
+        with:
+          name: typescript-rola.${{ github.sha }}
+          path: .
 
-  # test_and_lint_python:
-  #   defaults:
-  #     run:
-  #       working-directory: ./python
-  #   runs-on: ubuntu-latest
-  #   container:
-  #     image: python:3.8
+  test_and_lint_python:
+    defaults:
+      run:
+        working-directory: ./python
+    runs-on: ubuntu-latest
+    container:
+      image: python:3.8
 
-  #   steps:
-  #     - uses: RDXWorks-actions/checkout@main
+    steps:
+      - uses: RDXWorks-actions/checkout@main
 
-  #     - name: Install dependencies
-  #       run: |  
-  #         pip install -r requirements.txt
+      - name: Install dependencies
+        run: |  
+          pip install -r requirements.txt
 
-  #     - uses: RDXWorks-actions/black@stable
-  #       with:
-  #         options: "--check --verbose"
-  #         src: "."
+      - uses: RDXWorks-actions/black@stable
+        with:
+          options: "--check --verbose"
+          src: "."
 
-  #     - name: Static type check
-  #       run: |
-  #         pip install mypy
-  #         mypy rola --ignore-missing-imports --install-types --non-interactive 
+      - name: Static type check
+        run: |
+          pip install mypy
+          mypy rola --ignore-missing-imports --install-types --non-interactive 
 
-  #     - name: Running tests
-  #       run: |
-  #         pip install pytest
-  #         pytest tests/
+      - name: Running tests
+        run: |
+          pip install pytest
+          pytest tests/
 
