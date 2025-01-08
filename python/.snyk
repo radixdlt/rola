@@ -1,0 +1,12 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.25.0
+# ignores vulnerabilities until expiry date; change duration by modifying expiry date
+ignore:
+  SNYK-PYTHON-ECDSA-6184115:
+    - '*':
+        reason: "Timing attack vulnerability in ecdsa@0.19.0 with no available fix."
+        expires: "2026-01-31T23:59:59.000Z"
+  SNYK-PYTHON-ECDSA-6219992:
+    - '*':
+        reason: "Missing encryption vulnerability in ecdsa@0.19.0 with no available fix."
+        expires: "2026-01-31T23:59:59.000Z"
