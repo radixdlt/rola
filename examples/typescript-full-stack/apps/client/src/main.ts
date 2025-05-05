@@ -49,18 +49,22 @@ const getChallenge: () => Promise<string> = () =>
 
 radixDappToolkit.walletApi.provideChallengeGenerator(getChallenge)
 
+const result = await radixDappToolkit.walletApi.sendRequest()
+
 const rolaResultElement = document.getElementById('rola-result')!
 
-radixDappToolkit.walletApi.dataRequestControl(async ({ proofs }) => {
-  const { valid } = await fetch('http://localhost:3000/verify', {
+if (result.isOk()) {
+  const proof = result.value.proofs[1];
+
+  const { verification } = await fetch('http://localhost:3000/verify', {
     method: 'POST',
-    body: JSON.stringify(proofs),
+    body: JSON.stringify(proof),
     headers: { 'content-type': 'application/json' },
-  }).then((res): Promise<{ valid: boolean }> => res.json())
+  }).then((res): Promise<{ verification: boolean }> => res.json())
 
   rolaResultElement.innerHTML = JSON.stringify(
-    proofs.map((item) => ({ ...item, rolaVerified: valid })),
+    proof.map((item: any) => ({ ...item, rolaVerified: verification })),
     null,
     2
   )
-})
+}
